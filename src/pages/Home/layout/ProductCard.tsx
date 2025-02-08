@@ -5,22 +5,17 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../store/features/cartSlice';
 import { toast } from 'react-toastify';
 import { useRecentlyViewed } from '../../../hooks/useRecentlyViewed';
+import { routePath } from '../../../utils/routePath';
 
 const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews, discount }: ProductCardProps) => {
   const dispatch = useDispatch();
   const { addToRecentlyViewed } = useRecentlyViewed();
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigation from Link component
+    e.preventDefault(); // Prevent navigation
+    e.stopPropagation(); // Prevent event bubbling
     dispatch(addToCart({ id, name, price, originalPrice, imageUrl, rating, reviews, discount }));
-    toast.success('Product added to cart!', {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    toast.success('Added to cart!');
   };
 
   const handleProductClick = () => {
@@ -28,40 +23,49 @@ const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews
   };
 
   return (
-    <Link to={`/products/${id}`} className="group" onClick={handleProductClick}>
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-        <div className="relative">
+    <Link 
+      to={routePath.PRODUCT_DETAILS.replace(':id', id)} 
+      className="block group"
+      onClick={handleProductClick}
+    >
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+        <div className="relative aspect-w-1 aspect-h-1">
           <img 
             src={imageUrl} 
             alt={name}
-            className="w-full h-48 object-cover"
+            className="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-300"
           />
-          {discount && (
-            <span className="absolute top-2 right-2 bg-[#330066] text-white px-2 py-1 rounded-full text-sm">
+          {discount && discount > 0 && (
+            <span className="absolute top-2 right-2 bg-[#330066] text-white px-2 py-1 rounded-full text-xs font-medium">
               -{discount}%
             </span>
           )}
         </div>
+        
         <div className="p-4">
           <h3 className="text-gray-800 font-medium mb-2 group-hover:text-[#330066] transition-colors line-clamp-2">
             {name}
           </h3>
-          <div className="flex items-center space-x-2 mb-2">
-            <span className="text-lg font-bold text-[#330066]">
-              ₦{price.toLocaleString()}
-            </span>
-            {originalPrice && (
-              <span className="text-sm text-gray-500 line-through">
-                ₦{originalPrice.toLocaleString()}
+          
+          <div className="flex items-center mb-2">
+            <div className="flex-1">
+              <span className="text-lg font-bold text-[#330066]">
+                ₦{price.toLocaleString()}
               </span>
-            )}
+              {originalPrice && originalPrice > price && (
+                <span className="ml-2 text-sm text-gray-500 line-through">
+                  ₦{originalPrice.toLocaleString()}
+                </span>
+              )}
+            </div>
           </div>
+
           <div className="flex items-center space-x-1 mb-3">
             {[...Array(5)].map((_, index) => (
               <FiStar
                 key={index}
                 className={`w-4 h-4 ${
-                  index < rating
+                  index < Math.floor(rating)
                     ? 'text-[#330066] fill-current'
                     : 'text-gray-300'
                 }`}
@@ -71,11 +75,12 @@ const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews
               ({reviews})
             </span>
           </div>
+
           <button
             onClick={handleAddToCart}
-            className="w-full bg-[#330066] text-white py-2 rounded-md hover:bg-[#2a0052] transition-colors cursor-pointer"
+            className="w-full bg-[#330066] text-white py-2 px-4 rounded-md hover:bg-purple-800 transition-colors duration-300 flex items-center justify-center space-x-2"
           >
-            Add to Cart
+            <span>Add to Cart</span>
           </button>
         </div>
       </div>
