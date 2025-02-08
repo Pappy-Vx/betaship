@@ -19,18 +19,20 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import Logo from "../assets/images/Betaship2.png";
 import { routePath } from "../utils/routePath";
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <header className="w-full bg-white shadow-sm">
       {/* Top Bar */}
       <div className="bg-[#330066] text-white py-1 px-4">
-        <div className="container mx-auto">
-          <img src={Logo} alt="Jumia Logo" className="h-6 md:h-8" />
-        </div>
+        <Link to={routePath.HOME} className="container mx-auto">
+          <img src={Logo} alt="Betaship Logo" className="h-6 md:h-8" />
+        </Link>
       </div>
 
       {/* Main Header */}
@@ -64,7 +66,7 @@ const Header = () => {
           <nav className="hidden lg:flex items-center space-x-6">
             <Link
               to="/account"
-              className="flex items-center space-x-2 text-gray-600 hover:text-[#330066]"
+              className="flex items-center space-x-2 text-gray-600 hover:text-[#330066]  "
             >
               <NavigationMenuComponent className="text-black">
                 <NavigationMenuItem>
@@ -74,9 +76,10 @@ const Header = () => {
                   <NavigationMenuContent>
                     <div className="navcon2">
                       <NavigationMenuLink href="/">
-                        <div className="navmenulink">
+                        <div className="decor">
                           <Link to={routePath.LOGIN}>Login</Link>
                         </div>
+                        <div className="w-full h-[.5px] bg-gray-400 "></div>
                         <div className="navmenulink">
                           <h4>My Account</h4>
                         </div>
@@ -91,7 +94,7 @@ const Header = () => {
             </Link>
             <Link
               to="/help"
-              className="flex items-center space-x-2 text-gray-600 hover:text-[#330066]"
+              className="flex items-center space-x-2 text-black hover:text-[#330066]"
             >
               <FiHelpCircle className="w-5 h-5" />
               <span>Help</span>

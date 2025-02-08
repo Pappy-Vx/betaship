@@ -78,7 +78,7 @@ const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews
 
           <button
             onClick={handleAddToCart}
-            className="w-full bg-[#330066] text-white py-2 px-4 rounded-md hover:bg-purple-800 transition-colors duration-300 flex items-center justify-center space-x-2"
+            className="w-full bg-[#330066] text-white py-2 px-4 rounded-md hover:bg-purple-800 transition-colors duration-300 flex items-center justify-center space-x-2 cursor-pointer"
           >
             <span>Add to Cart</span>
           </button>

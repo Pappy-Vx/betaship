@@ -1,84 +1,79 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProductCardProps } from '../../types/home.types';
 
-interface CartItem extends ProductCardProps {
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  imageUrl: string;
   quantity: number;
+  rating?: number;
+  reviews?: number;
+  discount?: number;
+  size?: string;
 }
 
 interface CartState {
   items: CartItem[];
-  totalQuantity: number;
 }
 
-// Load initial state from localStorage
+// Load cart from localStorage
 const loadState = (): CartState => {
   try {
     const serializedState = localStorage.getItem('cart');
     if (serializedState === null) {
-      return {
-        items: [],
-        totalQuantity: 0,
-      };
+      return { items: [] };
     }
     return JSON.parse(serializedState);
   } catch (err) {
-    return {
-      items: [],
-      totalQuantity: 0,
-    };
+    return { items: [] };
+  }
+};
+
+// Save cart to localStorage
+const saveState = (state: CartState) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('cart', serializedState);
+  } catch {
+    // Ignore write errors
   }
 };
 
 const initialState: CartState = loadState();
 
-// Save state to localStorage
-const saveState = (state: CartState) => {
-  try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('cart', serializedState);
-  } catch (err) {
-    // Handle errors here
-    console.error('Could not save cart state:', err);
-  }
-};
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ProductCardProps>) => {
-      const newItem = action.payload;
-      const existingItem = state.items.find(item => item.id === newItem.id);
+    addToCart: (state, action: PayloadAction<Omit<CartItem, 'quantity'>>) => {
+      const existingItem = state.items.find(item => item.id === action.payload.id);
       
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.items.push({ ...newItem, quantity: 1 });
+        state.items.push({ ...action.payload, quantity: 1 });
       }
-      state.totalQuantity += 1;
+      
       saveState(state);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
-      const id = action.payload;
-      const existingItem = state.items.find(item => item.id === id);
-      
-      if (existingItem) {
-        if (existingItem.quantity === 1) {
-          state.items = state.items.filter(item => item.id !== id);
-        } else {
-          existingItem.quantity -= 1;
-        }
-        state.totalQuantity -= 1;
-        saveState(state);
+      state.items = state.items.filter(item => item.id !== action.payload);
+      saveState(state);
+    },
+    updateQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
+      const item = state.items.find(item => item.id === action.payload.id);
+      if (item) {
+        item.quantity = action.payload.quantity;
       }
+      saveState(state);
     },
     clearCart: (state) => {
       state.items = [];
-      state.totalQuantity = 0;
       saveState(state);
     },
   },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
