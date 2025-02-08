@@ -15,11 +15,14 @@ import {
 } from "./common/NavigationMenuComponent";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 import Logo from "../assets/images/Betaship2.png";
 import { routePath } from "../utils/routePath";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
 
   return (
     <header className="w-full bg-white shadow-sm">
@@ -93,17 +96,13 @@ const Header = () => {
               <FiHelpCircle className="w-5 h-5" />
               <span>Help</span>
             </Link>
-            <Link
-              to="/cart"
-              className="flex items-center space-x-2 text-gray-600 hover:text-[#330066]"
-            >
-              <div className="relative">
-                <FiShoppingCart className="w-5 h-5" />
-                <span className="absolute -top-2 -right-2 bg-[#330066] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                  0
+            <Link to="/cart" className="relative">
+              <FiShoppingCart className="w-6 h-6 text-black" />
+              {cartQuantity > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#330066] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {cartQuantity}
                 </span>
-              </div>
-              <span>Cart</span>
+              )}
             </Link>
           </nav>
         </div>
@@ -128,16 +127,13 @@ const Header = () => {
                 <FiHelpCircle className="w-5 h-5" />
                 <span>Help</span>
               </Link>
-              <Link
-                to="/cart"
-                className="flex items-center space-x-2 text-gray-600 py-2"
-              >
-                <div className="relative">
-                  <FiShoppingCart className="w-5 h-5" />
-                  <span className="absolute -top-2 -right-2 bg-[#330066] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                    0
+              <Link to="/cart" className="relative">
+                <FiShoppingCart className="w-5 h-5" />
+                {cartQuantity > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-[#f68b1e] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                    {cartQuantity}
                   </span>
-                </div>
+                )}
                 <span>Cart</span>
               </Link>
               <div className="border-t pt-2">

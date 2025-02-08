@@ -1,8 +1,26 @@
 import { Link } from 'react-router-dom';
 import { ProductCardProps } from '../../../types/home.types';
 import { FiStar } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../store/features/cartSlice';
+import { toast } from 'react-toastify';
 
 const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews, discount }: ProductCardProps) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation from Link component
+    dispatch(addToCart({ id, name, price, originalPrice, imageUrl, rating, reviews, discount }));
+    toast.success('Product added to cart!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
   return (
     <Link to={`/products/${id}`} className="group">
       <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
@@ -13,7 +31,7 @@ const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews
             className="w-full h-48 object-cover"
           />
           {discount && (
-            <span className="absolute top-2 right-2 bg-[#f68b1e] text-white px-2 py-1 rounded-full text-sm">
+            <span className="absolute top-2 right-2 bg-[#330066] text-white px-2 py-1 rounded-full text-sm">
               -{discount}%
             </span>
           )}
@@ -32,13 +50,13 @@ const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews
               </span>
             )}
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1 mb-3">
             {[...Array(5)].map((_, index) => (
               <FiStar
                 key={index}
                 className={`w-4 h-4 ${
                   index < rating
-                    ? 'text-yellow-400 fill-current'
+                    ? 'text-[#330066] fill-current'
                     : 'text-gray-300'
                 }`}
               />
@@ -47,6 +65,12 @@ const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews
               ({reviews})
             </span>
           </div>
+          <button
+            onClick={handleAddToCart}
+            className="w-full bg-[#330066] text-white py-2 rounded-md hover:bg-[#2a0052] transition-colors cursor-pointer"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </Link>
