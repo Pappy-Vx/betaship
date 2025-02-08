@@ -1,6 +1,8 @@
 import Banner from './layout/Banner';
 import Categories from './layout/Categories';
 import FeaturedProducts from './layout/FeaturedProducts';
+import NewCollections from './layout/NewCollections';
+import RecentlyViewed from './layout/RecentlyViewed';
 import Header from '../../components/Header';
 
 const Home = () => {
@@ -25,6 +27,12 @@ const Home = () => {
 
         {/* Featured Products Section */}
         <FeaturedProducts />
+
+        {/* New Collections Section */}
+        <NewCollections />
+
+        {/* Recently Viewed Section */}
+        <RecentlyViewed />
       </div>
     </>
   );

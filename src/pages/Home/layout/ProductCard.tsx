@@ -4,9 +4,11 @@ import { FiStar } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../store/features/cartSlice';
 import { toast } from 'react-toastify';
+import { useRecentlyViewed } from '../../../hooks/useRecentlyViewed';
 
 const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews, discount }: ProductCardProps) => {
   const dispatch = useDispatch();
+  const { addToRecentlyViewed } = useRecentlyViewed();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigation from Link component
@@ -21,8 +23,12 @@ const ProductCard = ({ id, name, price, originalPrice, imageUrl, rating, reviews
     });
   };
 
+  const handleProductClick = () => {
+    addToRecentlyViewed({ id, name, price, originalPrice, imageUrl, rating, reviews, discount });
+  };
+
   return (
-    <Link to={`/products/${id}`} className="group">
+    <Link to={`/products/${id}`} className="group" onClick={handleProductClick}>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         <div className="relative">
           <img 

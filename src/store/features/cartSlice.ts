@@ -10,9 +10,36 @@ interface CartState {
   totalQuantity: number;
 }
 
-const initialState: CartState = {
-  items: [],
-  totalQuantity: 0,
+// Load initial state from localStorage
+const loadState = (): CartState => {
+  try {
+    const serializedState = localStorage.getItem('cart');
+    if (serializedState === null) {
+      return {
+        items: [],
+        totalQuantity: 0,
+      };
+    }
+    return JSON.parse(serializedState);
+  } catch (err) {
+    return {
+      items: [],
+      totalQuantity: 0,
+    };
+  }
+};
+
+const initialState: CartState = loadState();
+
+// Save state to localStorage
+const saveState = (state: CartState) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('cart', serializedState);
+  } catch (err) {
+    // Handle errors here
+    console.error('Could not save cart state:', err);
+  }
 };
 
 const cartSlice = createSlice({
@@ -29,6 +56,7 @@ const cartSlice = createSlice({
         state.items.push({ ...newItem, quantity: 1 });
       }
       state.totalQuantity += 1;
+      saveState(state);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       const id = action.payload;
@@ -41,11 +69,13 @@ const cartSlice = createSlice({
           existingItem.quantity -= 1;
         }
         state.totalQuantity -= 1;
+        saveState(state);
       }
     },
     clearCart: (state) => {
       state.items = [];
       state.totalQuantity = 0;
+      saveState(state);
     },
   },
 });
