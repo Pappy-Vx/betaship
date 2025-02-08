@@ -2,11 +2,12 @@ import { useState } from 'react';
 import ProductCard from './ProductCard';
 import all_product from '../../../assets/items/all_product';
 import { ProductCardProps } from '../../../types/home.types';
+import { AllProduct } from '../../../types/product.types';
 
 const NewCollections = () => {
   const [visibleProducts] = useState<ProductCardProps[]>(() => {
     // Get the latest 6 products from all_product
-    return all_product.slice(-6).map(product => ({
+    return all_product.slice(-6).map((product: AllProduct) => ({
       id: String(product.id),
       name: product.name,
       price: product.new_price || 0,

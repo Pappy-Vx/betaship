@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ProductCard from './ProductCard';
 import { ProductCardProps } from '../../../types/home.types';
+import { AllProduct } from '../../../types/product.types';
 import all_product from '../../../assets/items/all_product';
 
 const FeaturedProducts = () => {
@@ -9,7 +10,7 @@ const FeaturedProducts = () => {
     return all_product
       .sort(() => Math.random() - 0.5)
       .slice(0, 6)
-      .map(product => ({
+      .map((product: AllProduct) => ({
         id: String(product.id),
         name: product.name,
         price: product.new_price || 0,
