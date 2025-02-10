@@ -12,7 +12,7 @@ const Banner = ({ title, subtitle, imageUrl, buttonText, buttonLink, discount }:
       <div className="absolute inset-0 bg-gradient-to-r from-[#330066]/80 to-transparent flex items-center">
         <div className="max-w-xl px-6 md:px-12">
           {discount && (
-            <span className="inline-block bg-[#f68b1e] text-white px-4 py-1 rounded-full text-sm mb-4">
+            <span className="inline-block bg-[#b15eff] text-white px-4 py-1 rounded-full text-sm mb-4">
               {discount}
             </span>
           )}
@@ -24,7 +24,7 @@ const Banner = ({ title, subtitle, imageUrl, buttonText, buttonLink, discount }:
           </p>
           <Link 
             to={buttonLink}
-            className="inline-block bg-[#f68b1e] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#e67e15] transition-colors"
+            className="inline-block bg-[#b15eff] text-white px-8 py-3 rounded-full font-semibold   transition-colors"
           >
             {buttonText}
           </Link>

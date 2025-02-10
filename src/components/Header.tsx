@@ -98,7 +98,7 @@ const Header = () => {
         </div>
         <Link
           to={routePath.CART}
-          className="text-white hover:text-[#330066] relative sm:hidden  block "
+          className="text-white   relative sm:hidden  block "
         >
           <FiShoppingCart className="h-6 w-6" />
           {cartQuantity > 0 && (
@@ -270,13 +270,12 @@ const Header = () => {
                   <h3 className="text-black">Categories</h3>
                   <div className="border-t pt-2">
                     {[
-                      "Supermarket",
-                      "Health & Beauty",
-                      "Home & Office",
-                      "Phones & Tablets",
-                      "Computing",
-                      "Electronics",
-                      "Fashion",
+                      "Surgical",
+                      "Dental",
+                      "Medical",
+                      "Implants",
+                      "Laboratory Equiptments",
+ 
                     ].map((category) => (
                       <Link
                         key={category}

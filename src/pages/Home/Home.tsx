@@ -9,12 +9,12 @@ import Footer from '../../components/Footer';
 
 const Home = () => {
   const bannerData = {
-    title: "Grab Upto 50% Off On Selected Headphone",
-    subtitle: "Experience premium sound quality with our wide selection of headphones",
+    title: "Get Your Medical Products Here",
+    subtitle: "Experience quality medical products at affordable rates",
     imageUrl: "https://via.placeholder.com/1200x400",
     buttonText: "Shop Now",
-    buttonLink: "/category/headphones",
-    discount: "Up to 50% Off"
+    buttonLink: "/product",
+    discount: "Up to 5% Off"
   };
 
   return (
