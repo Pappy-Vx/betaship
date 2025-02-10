@@ -4,6 +4,8 @@ import FeaturedProducts from './layout/FeaturedProducts';
 import NewCollections from './layout/NewCollections';
 import RecentlyViewed from './layout/RecentlyViewed';
 import Header from '../../components/Header';
+import HomeFooter from './layout/HomeFooter';
+import Footer from '../../components/Footer';
 
 const Home = () => {
   const bannerData = {
@@ -33,7 +35,10 @@ const Home = () => {
 
         {/* Recently Viewed Section */}
         <RecentlyViewed />
+
+        <HomeFooter />
       </div>
+      <Footer />
     </>
   );
 };
