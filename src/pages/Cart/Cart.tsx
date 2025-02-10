@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { routePath } from '../../utils/routePath';
 import { FiShoppingBag } from 'react-icons/fi';
 import RecentlyViewed from '../Home/layout/RecentlyViewed';
+import Footer from '../../components/Footer';
 
 const Cart = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -70,6 +71,7 @@ const Cart = () => {
         </div>
         <RecentlyViewed />
       </div>
+      <Footer />
     </>
   );
 };

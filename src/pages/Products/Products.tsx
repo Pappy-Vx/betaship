@@ -4,6 +4,7 @@ import ProductDetails from './layout/ProductDetails';
 import all_product from '../../assets/items/all_product';
 import ProductCard from '../Home/layout/ProductCard';
 import RecentlyViewed from '../Home/layout/RecentlyViewed';
+import Footer from '../../components/Footer';
 
 const Products = () => {
   const { id } = useParams();
@@ -47,6 +48,7 @@ const Products = () => {
         </div>
         <RecentlyViewed />
       </div>
+      <Footer />
     </>
   );
 };

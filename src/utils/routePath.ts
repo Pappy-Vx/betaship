@@ -10,4 +10,5 @@ export const routePath = {
     REGISTER: "/register",
     POLICY: "/policy",
     SHOP: "/shop",
+    SUCCESS: "/success",
 };

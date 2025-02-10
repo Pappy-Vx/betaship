@@ -8,6 +8,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Contact from "../pages/Contact/Contact";
 import Shop from "../pages/Shop/Shop";
+import Success from "../pages/Checkout/Success";
 
 export {
     Home,
@@ -19,5 +20,6 @@ export {
     Login,
     Register,
     Contact,
-    Shop
+    Shop,
+    Success,
 }
