@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { routePath } from '../utils/routePath';
-import Logo from '../assets/images/Betaship2.png';
+import Logo from '../assets/images/betaship.webp';
 import { FiMail, FiPhone } from 'react-icons/fi';
 import { FaXTwitter, FaInstagram } from 'react-icons/fa6';
 

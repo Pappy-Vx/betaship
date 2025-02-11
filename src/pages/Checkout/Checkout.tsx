@@ -1,4 +1,4 @@
-import { useState,   } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 //import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/store';
@@ -38,6 +38,23 @@ const Checkout = () => {
     email: '',
     orderNotes: '',
   });
+
+  const [states, setStates] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchStates = async () => {
+      try {
+        const response = await fetch('https://nga-states-lga.onrender.com/fetch');
+        const data = await response.json();
+        console.log(data)
+        setStates(data);
+      } catch (error) {
+        console.error('Error fetching states:', error);
+      }
+    };
+
+    fetchStates();
+  }, []);
 
   const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   const shipping = 0; // Free shipping
@@ -132,19 +149,7 @@ const Checkout = () => {
                 />
               </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Company name (optional)
-              </label>
-              <input
-                type="text"
-                name="companyName"
-                value={shippingDetails.companyName}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#330066]"
-              />
-            </div>
+ 
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -160,19 +165,7 @@ const Checkout = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#330066]"
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Apartment, suite, etc. (optional)
-              </label>
-              <input
-                type="text"
-                name="apartment"
-                value={shippingDetails.apartment}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#330066]"
-              />
-            </div>
+ 
 
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -197,12 +190,14 @@ const Checkout = () => {
                   required
                   value={shippingDetails.state}
                   onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#330066]"
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#330066] max-h-32 overflow-y-auto"
                 >
                   <option value="">Select a state</option>
-                  <option value="Lagos">Lagos</option>
-                  <option value="Abuja">Abuja</option>
-                  {/* Add more states */}
+                  {states && states.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -266,7 +261,7 @@ const Checkout = () => {
                 <div key={item.id} className="flex justify-between items-center py-2">
                   <div className="flex items-center space-x-2">
                     <img 
-                      src=" " 
+                      src={item.imageUrl}
                       alt={item.name} 
                       className="w-12 h-12 object-cover rounded"
                     />
